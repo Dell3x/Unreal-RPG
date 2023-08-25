@@ -8,6 +8,9 @@
 
 class USkeletalMeshComponent;
 class UCapsuleComponent;
+class USpringArmComponent;
+class UCameraComponent;
+
 UCLASS()
 class SLASH_API ABird : public APawn
 {
@@ -25,6 +28,14 @@ protected:
 private:
 	UPROPERTY(VisibleAnywhere)
 	UCapsuleComponent* _capsule;
+	
 	UPROPERTY(VisibleAnywhere)
 	USkeletalMeshComponent* _skeletalMesh;
+
+	UPROPERTY(VisibleAnywhere)
+	USpringArmComponent* _springArm;
+
+	UPROPERTY(VisibleAnywhere)
+	UCameraComponent* _cameraComponent;
+	
 };

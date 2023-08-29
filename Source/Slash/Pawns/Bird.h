@@ -32,15 +32,18 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
 	UInputAction* _moveAction;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
+	UInputAction* _lookAction;
+
 	
 	virtual void BeginPlay() override;
-	void MoveForward(float Value);
 	void Move(const FInputActionValue& value);
+	void LookAround(const FInputActionValue& Value);
 
 	
 private:
 	UPROPERTY(VisibleAnywhere)
-	UCapsuleComponent* _capsule;
+	UCapsuleComponent* _capsuleComponent;
 	
 	UPROPERTY(VisibleAnywhere)
 	USkeletalMeshComponent* _skeletalMesh;

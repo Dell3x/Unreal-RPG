@@ -12,8 +12,8 @@ ABird::ABird()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
-	_capsule = CreateDefaultSubobject<UCapsuleComponent>(TEXT("CapsuleComponent"));
-	SetRootComponent(_capsule);
+	_capsuleComponent = CreateDefaultSubobject<UCapsuleComponent>(TEXT("CapsuleComponent"));
+	SetRootComponent(_capsuleComponent);
 
 	_skeletalMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("BirdMesh"));
 	_skeletalMesh->SetupAttachment(GetRootComponent());
@@ -37,12 +37,7 @@ void ABird::BeginPlay()
 		{
 			subSystem->AddMappingContext(_birdMappingContext, 0);
 		}
-	}
-}
-
-void ABird::MoveForward(float Value)
-{
-	
+	} 
 }
 
 void ABird::Move(const FInputActionValue& value)
@@ -53,7 +48,20 @@ void ABird::Move(const FInputActionValue& value)
 	{
 		FVector forwardVector = GetActorForwardVector();
 		AddMovementInput(forwardVector, directionValue);
+		
 	}
+}
+
+void ABird::LookAround(const FInputActionValue& Value)
+{
+	const FVector2D lookAxisValue = Value.Get<FVector2D>();
+
+	if(GetController())
+	{
+		AddControllerYawInput(lookAxisValue.X);
+		AddControllerPitchInput(lookAxisValue.Y);
+	}
+
 }
 
 void ABird::Tick(float DeltaTime)
@@ -68,7 +76,8 @@ void ABird::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 	if(UEnhancedInputComponent* enhancedInput = CastChecked<UEnhancedInputComponent>(PlayerInputComponent))
 	{
-		enhancedInput->BindAction(_moveAction, ETriggerEvent::Triggered, this,&ABird::Move);
+		enhancedInput->BindAction(_moveAction, ETriggerEvent::Triggered, this, &ABird::Move);
+		enhancedInput->BindAction(_lookAction, ETriggerEvent::Triggered, this, &ABird::LookAround);
 	}
 
 }

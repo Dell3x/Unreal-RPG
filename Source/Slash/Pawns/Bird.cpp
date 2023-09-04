@@ -42,13 +42,14 @@ void ABird::BeginPlay()
 
 void ABird::Move(const FInputActionValue& value)
 {
-	const float directionValue = value.Get<float>();
+	const FVector2d directionValue = value.Get<FVector2d>();
 	
-	if(Controller && directionValue != 0.f)
+	if(Controller)
 	{
 		FVector forwardVector = GetActorForwardVector();
-		AddMovementInput(forwardVector, directionValue);
-		
+		FVector rightVector = GetActorRightVector();
+		AddMovementInput(forwardVector, directionValue.Y);
+		AddMovementInput(rightVector, directionValue.X);
 	}
 }
 

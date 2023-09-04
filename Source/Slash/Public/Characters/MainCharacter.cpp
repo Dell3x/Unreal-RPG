@@ -12,6 +12,12 @@ void AMainCharacter::BeginPlay()
 	
 }
 
+void AMainCharacter::MoveForward(float value)
+{
+	FVector forwardVector = GetActorForwardVector();
+	AddMovementInput(forwardVector, value);
+}
+
 void AMainCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
@@ -21,5 +27,6 @@ void AMainCharacter::Tick(float DeltaTime)
 void AMainCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+	PlayerInputComponent->BindAxis(FName("MovingForwardOrBack"), this, &AMainCharacter::MoveForward);
 }
 

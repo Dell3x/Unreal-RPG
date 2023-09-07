@@ -1,6 +1,7 @@
 #include "Characters/MainCharacter.h"
 
 #include "Camera/CameraComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 
 AMainCharacter::AMainCharacter()
@@ -10,6 +11,8 @@ AMainCharacter::AMainCharacter()
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationYaw = false;
 	bUseControllerRotationRoll = false;
+
+	GetCharacterMovement()->bOrientRotationToMovement = true;
 	
 	_springComponent = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
 	_springComponent->SetupAttachment(GetRootComponent());
@@ -27,14 +30,20 @@ void AMainCharacter::BeginPlay()
 
 void AMainCharacter::MoveForward(float value)
 {
-	FVector forwardVector = GetActorForwardVector();
-	AddMovementInput(forwardVector, value);
+	const FRotator controllerRotation = GetControlRotation();
+	const FRotator yawRotation(0.f, controllerRotation.Yaw, 0.f);
+	const FVector direction = FRotationMatrix(yawRotation).GetUnitAxis(EAxis::X);
+	
+	AddMovementInput(direction, value);
 }
 
 void AMainCharacter::MoveRightOrLeft(float value)
 {
-	FVector rightVector = GetActorRightVector();
-	AddMovementInput(rightVector, value);	
+	const FRotator controllerRotation = GetControlRotation();
+	const FRotator yawRotation(0.f, controllerRotation.Yaw, 0.f);
+	const FVector direction = FRotationMatrix(yawRotation).GetUnitAxis(EAxis::Y);
+	
+	AddMovementInput(direction, value);
 }
 
 void AMainCharacter::Turn(float value)

@@ -20,7 +20,6 @@ AMainCharacter::AMainCharacter()
 
 	_cameraView = CreateDefaultSubobject<UCameraComponent>(TEXT("CameraView"));
 	_cameraView->SetupAttachment(_springComponent);
-
 }
 
 void AMainCharacter::BeginPlay()

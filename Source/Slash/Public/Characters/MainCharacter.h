@@ -6,6 +6,7 @@
 
 class USpringArmComponent;
 class UCameraComponent;
+
 UCLASS()
 class SLASH_API AMainCharacter : public ACharacter
 {
